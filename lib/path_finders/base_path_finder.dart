@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:flutter_path_finder_algorithms/path_finders/node.dart';
 
 abstract class BasePathFinder {
+  BasePathFinder(this.name);
+
+  final String name;
+
   final StreamController<List<List<Node>>> searchStreamController =
       StreamController<List<List<Node>>>();
 

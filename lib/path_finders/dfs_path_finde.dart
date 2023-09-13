@@ -4,6 +4,8 @@ import 'package:flutter_path_finder_algorithms/path_finders/base_path_finder.dar
 import 'package:flutter_path_finder_algorithms/path_finders/node.dart';
 
 class DFSPathFinder extends BasePathFinder {
+  DFSPathFinder() : super('DFS Path Finder');
+
   @override
   Future<void> run(
     List<List<Node>> graph,

@@ -4,6 +4,8 @@ import 'package:flutter_path_finder_algorithms/path_finders/base_path_finder.dar
 import 'package:flutter_path_finder_algorithms/path_finders/node.dart';
 
 class AStarPathFinder extends BasePathFinder {
+  AStarPathFinder() : super('A* Path Finder');
+
   @override
   Future<void> run(
     List<List<Node>> graph,
