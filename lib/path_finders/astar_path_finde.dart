@@ -46,7 +46,11 @@ class AStarPathFinder extends BasePathFinder {
     }
   }
 
-  static Node _getBest(final List<Node> queue) {
+  double _calculateHuristic(Node node, Node end) =>
+      (node.position.dx - end.position.dx).abs() +
+      (node.position.dy - end.position.dy).abs();
+
+  Node _getBest(final List<Node> queue) {
     Node best = queue.first;
 
     for (final Node node in queue) {
@@ -59,8 +63,4 @@ class AStarPathFinder extends BasePathFinder {
 
     return best;
   }
-
-  static double _calculateHuristic(Node node, Node end) =>
-      (node.position.dx - end.position.dx).abs() +
-      (node.position.dy - end.position.dy).abs();
 }

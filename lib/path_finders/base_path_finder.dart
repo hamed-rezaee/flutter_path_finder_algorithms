@@ -19,37 +19,7 @@ abstract class BasePathFinder {
 
   void run(List<List<Node>> graph, Node start, Node end, [Duration delay]);
 
-  Future<void> getPath(Node end) async {
-    final List<Node> path = <Node>[];
-
-    Node node = end;
-
-    while (node.previous != null) {
-      path.add(node);
-      node = node.previous!;
-    }
-
-    path.add(node);
-
-    final List<Node> pathReversed = <Node>[];
-
-    while (path.isNotEmpty) {
-      pathReversed.add(path.removeLast());
-
-      await Future<void>.delayed(const Duration(milliseconds: 32));
-      pathStreamController.add(pathReversed);
-    }
-  }
-
-  void dispose() {
-    searchStreamController.close();
-    pathStreamController.close();
-  }
-
-  List<Node> getNeighbors(
-    List<List<Node>> graph,
-    Node node,
-  ) {
+  List<Node> getNeighbors(List<List<Node>> graph, Node node) {
     final List<Node> neighbors = <Node>[];
 
     final List<List<int>> directions = <List<int>>[
@@ -75,5 +45,32 @@ abstract class BasePathFinder {
     }
 
     return neighbors;
+  }
+
+  Future<void> getPath(Node end) async {
+    final List<Node> path = <Node>[];
+
+    Node node = end;
+
+    while (node.previous != null) {
+      path.add(node);
+      node = node.previous!;
+    }
+
+    path.add(node);
+
+    final List<Node> pathReversed = <Node>[];
+
+    while (path.isNotEmpty) {
+      pathReversed.add(path.removeLast());
+
+      await Future<void>.delayed(const Duration(milliseconds: 32));
+      pathStreamController.add(pathReversed);
+    }
+  }
+
+  void dispose() {
+    searchStreamController.close();
+    pathStreamController.close();
   }
 }
