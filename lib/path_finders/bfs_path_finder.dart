@@ -7,12 +7,12 @@ class BFSPathFinder extends BasePathFinder {
   BFSPathFinder() : super('BFS Path Finder');
 
   @override
-  Future<void> run(
+  Stream<List<List<Node>>> call(
     List<List<Node>> graph,
     Node start,
     Node end, [
     Duration delay = const Duration(milliseconds: 10),
-  ]) async {
+  ]) async* {
     final List<Node> queue = <Node>[start];
 
     while (queue.isNotEmpty) {
@@ -39,7 +39,7 @@ class BFSPathFinder extends BasePathFinder {
       }
 
       await Future<void>.delayed(delay);
-      searchStreamController.add(graph);
+      yield graph;
     }
   }
 }

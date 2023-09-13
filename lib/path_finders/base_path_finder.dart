@@ -7,17 +7,12 @@ abstract class BasePathFinder {
 
   final String name;
 
-  final StreamController<List<List<Node>>> searchStreamController =
-      StreamController<List<List<Node>>>();
-
-  final StreamController<List<Node>> pathStreamController =
-      StreamController<List<Node>>();
-
-  Stream<List<List<Node>>> get searchStream => searchStreamController.stream;
-
-  Stream<List<Node>> get pathStream => pathStreamController.stream;
-
-  void run(List<List<Node>> graph, Node start, Node end, [Duration delay]);
+  Stream<List<List<Node>>> call(
+    List<List<Node>> graph,
+    Node start,
+    Node end, [
+    Duration delay,
+  ]);
 
   List<Node> getNeighbors(List<List<Node>> graph, Node node) {
     final List<Node> neighbors = <Node>[];
@@ -47,7 +42,7 @@ abstract class BasePathFinder {
     return neighbors;
   }
 
-  Future<void> getPath(Node end) async {
+  Stream<List<Node>> getPath(Node end) async* {
     final List<Node> path = <Node>[];
 
     Node node = end;
@@ -65,12 +60,7 @@ abstract class BasePathFinder {
       pathReversed.add(path.removeLast());
 
       await Future<void>.delayed(const Duration(milliseconds: 32));
-      pathStreamController.add(pathReversed);
+      yield pathReversed;
     }
-  }
-
-  void dispose() {
-    searchStreamController.close();
-    pathStreamController.close();
   }
 }
