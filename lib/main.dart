@@ -10,9 +10,6 @@ import 'package:flutter_path_finder_algorithms/path_finders/node.dart';
 const int size = 40;
 const int walls = 400;
 
-const Offset startPosition = Offset.zero;
-const Offset endPosition = Offset(size - 1, size - 1);
-
 void main() => runApp(const MainApp());
 
 class MainApp extends StatelessWidget {
@@ -20,6 +17,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Offset startPosition = Offset(
+        Random().nextInt(size).toDouble(), Random().nextInt(size).toDouble());
+    final Offset endPosition = Offset(
+        Random().nextInt(size).toDouble(), Random().nextInt(size).toDouble());
+
     final List<List<Node>> nodes =
         _generateNodes(size, walls, startPosition, endPosition);
 
@@ -30,15 +32,30 @@ class MainApp extends StatelessWidget {
         body: GridView.count(
           crossAxisCount: 2,
           children: <Widget>[
-            _drawMap(Node.cloneList(nodes), BFSPathFinder()),
-            _drawMap(Node.cloneList(nodes), AStarPathFinder()),
+            _drawMap(
+              Node.cloneList(nodes),
+              BFSPathFinder(),
+              startPosition,
+              endPosition,
+            ),
+            _drawMap(
+              Node.cloneList(nodes),
+              AStarPathFinder(),
+              startPosition,
+              endPosition,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _drawMap(List<List<Node>> nodes, BasePathFinder pathFinder) {
+  Widget _drawMap(
+    List<List<Node>> nodes,
+    BasePathFinder pathFinder,
+    Offset startPosition,
+    Offset endPosition,
+  ) {
     final int startX = startPosition.dx.floor();
     final int startY = startPosition.dy.floor();
 
